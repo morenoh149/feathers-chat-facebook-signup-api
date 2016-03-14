@@ -1,6 +1,8 @@
+'use strict';
+
 $(function() {
   // A placeholder image if the user does not have one
-  const PLACEHOLDER = 'http://placehold.it/60x60';
+  const PLACEHOLDER = 'placeholder.png';
   // An anonymous user if the message does not have that information
   const dummyUser = {
     image: PLACEHOLDER,

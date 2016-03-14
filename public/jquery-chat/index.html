@@ -9,7 +9,7 @@
 
     <script src="//code.jquery.com/jquery-2.2.1.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.js"></script>
-    <script src="//localhost/development/feathersjs/feathers-client/dist/feathers.js"></script>
+    <script src="//cdn.rawgit.com/feathersjs/feathers-client/master/dist/feathers.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="app.js"></script>
   </head>
@@ -30,7 +30,7 @@
 
           <ul class="flex flex-column flex-1 list-unstyled user-list"></ul>
           <footer class="flex flex-row flex-center">
-            <a href="#" class="logout button button-primary">Sign Out</a>
+            <a href="/login.html" class="logout button button-primary">Sign Out</a>
           </footer>
         </aside>
 
@@ -38,7 +38,7 @@
           <main class="chat flex flex-column flex-1 clear"></main>
 
           <form class="flex flex-row flex-space-between" id="send-message">
-            <input type="text" name="text" class="flex">
+            <input type="text" name="text" class="flex flex-1">
             <button class="button-primary" type="submit">Send</button>
           </form>
         </div>
