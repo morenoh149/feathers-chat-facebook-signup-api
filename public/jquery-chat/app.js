@@ -5,7 +5,7 @@ $(function() {
   const PLACEHOLDER = 'placeholder.png';
   // An anonymous user if the message does not have that information
   const dummyUser = {
-    image: PLACEHOLDER,
+    avatar: PLACEHOLDER,
     email: 'Anonymous'
   };
   // The total number of users
@@ -17,7 +17,7 @@ $(function() {
     // Add the user to the list
     $('.user-list').append(`<li>
       <a class="block relative" href="#">
-        <img src="${user.image || PLACEHOLDER}" alt="" class="avatar">
+        <img src="${user.avatar || PLACEHOLDER}" alt="" class="avatar">
         <span class="absolute username">${user.email}</span>
       </a>
     </li>`);
@@ -26,13 +26,13 @@ $(function() {
   // Renders a new message and finds the user that belongs to the message
   function addMessage(message, users) {
     // Find the user belonging to this message or use the anonymous user if not found
-    const user = users.find(current => current._id === message.userId) || dummyUser;
+    const sender = users.find(current => current._id === message.sentBy) || dummyUser;
 
     $('.chat').append(`<div class="message flex flex-row">
-      <img src="${user.image || PLACEHOLDER}" alt="${user.email}" class="avatar">
+      <img src="${sender.avatar || PLACEHOLDER}" alt="${user.email}" class="avatar">
       <div class="message-wrapper">
         <p class="message-header">
-          <span class="username font-600">${user.email}</span>
+          <span class="username font-600">${sender.email}</span>
           <span class="sent-date font-300">${moment(message.createdAt).format('MMM Do, hh:mm:ss')}</span>
         </p>
         <p class="message-content font-300">${message.text}</p>

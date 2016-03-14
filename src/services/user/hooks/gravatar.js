@@ -23,6 +23,6 @@ const gravatarImage = email => {
 
 module.exports = function() {
   return function(hook) {
-    hook.data.image = gravatarImage(hook.data.email);
+    hook.data.avatar = gravatarImage(hook.data.email);
   };
 };
