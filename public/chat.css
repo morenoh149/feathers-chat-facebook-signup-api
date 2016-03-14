@@ -210,6 +210,10 @@ main.chat img.avatar {
   flex: none;
 }
 
+main.chat .message {
+  flex: 0 0 auto;
+}
+
 main.chat .message img.avatar {
   margin-right: 10px;
 }
