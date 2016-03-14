@@ -37,6 +37,7 @@ a:focus {
   color: #ffffff;
   border: none;
   border-radius: 5px;
+  transition: background 0.2s;
 }
 
 .button-primary:hover,
@@ -111,6 +112,7 @@ main.signup .button-primary {
   padding-top: 1.2em;
   padding-bottom: 1.2em;
   margin-top: 40px;
+  width: 100%;
 }
 
 
