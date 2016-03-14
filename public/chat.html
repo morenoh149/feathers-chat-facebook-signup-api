@@ -9,122 +9,14 @@
     <link rel="stylesheet"
       href="//cdn.rawgit.com/feathersjs/feathers-demos/master/examples/chat/public/chat.css">
 
-    <script src="//code.jquery.com/jquery-2.2.1.js"></script>
+    <script src="//fb.me/react-0.14.7.min.js"></script>
+    <script src="//fb.me/react-dom-0.14.7.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.js"></script>
     <script src="//localhost/development/feathersjs/feathers-client/dist/feathers.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script type="text/babel" src="app.jsx"></script>
   </head>
   <body>
-    <div id="app" class="flex flex-column">
-      <header class="title-bar flex flex-row flex-center">
-        <div class="title-wrapper block center-element">
-          <img class="logo" src="http://feathersjs.com/img/feathers-logo-wide.png" alt="Feathers Logo">
-          <span class="title">Chat</span>
-        </div>
-      </header>
-
-      <div class="flex flex-row flex-1 clear">
-        <aside class="sidebar col col-3 flex flex-column flex-space-between">
-          <header class="flex flex-row flex-center">
-            <h4 class="font-300 text-center"><span class="font-600 online-count">0</span> users</h4>
-          </header>
-
-          <ul class="flex flex-column flex-1 list-unstyled user-list"></ul>
-          <footer class="flex flex-row flex-center">
-            <a href="#" class="button button-primary">Sign Out</a>
-          </footer>
-        </aside>
-
-        <div class="flex flex-column col col-9">
-          <main class="chat flex flex-column flex-1 clear"></main>
-
-          <form class="flex flex-row flex-space-between" id="send-message">
-            <input type="text" name="text" class="flex">
-            <button class="button-primary" type="submit">Send</button>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <script type="text/javascript">
-      const PLACEHOLDER = 'http://placehold.it/60x60';
-      const dummyUser = {
-        image: PLACEHOLDER,
-        email: 'Anonymous'
-      };
-      let userCount = 0;
-
-      function addUser(user) {
-        // Update the number of users
-        $('.online-count').html(++userCount);
-        // Add the user to the list
-        $('.user-list').append(`<li>
-          <a class="block relative" href="#">
-            <img src="${user.image || PLACEHOLDER}" alt="" class="avatar">
-            <span class="absolute username">${user.email}</span>
-          </a>
-        </li>`);
-      }
-
-      function addMessage(message, users) {
-        const user = users.find(current => current._id === message.userId) || dummyUser;
-
-        $('.chat').append(`<div class="message flex flex-row">
-          <img src="${user.image || PLACEHOLDER}" alt="${user.email}" class="avatar">
-          <div class="message-wrapper">
-            <p class="message-header">
-              <span class="username font-600">${user.email}</span>
-              <span class="sent-date font-300">${new Date(message.createdAt || 0)}</span>
-            </p>
-            <p class="message-content font-300">${message.text}</p>
-          </div>
-        </div>`);
-      }
-
-      const socket = io();
-      const app = feathers()
-        .configure(feathers.socketio(socket))
-        .configure(feathers.hooks())
-        .configure(feathers.authentication({
-          storage: window.localStorage
-        }));
-
-      app.authenticate().then(() => {
-        const userService = app.service('users');
-        const messageService = app.service('messages');
-
-        $('#send-message').on('submit', function(ev) {
-          const input = $(this).find('[name="text"]');
-
-          // Create a new message and then clear the input field
-          messageService.create({
-            text: input.val()
-          }).then(message => input.val(''));
-
-          ev.preventDefault();
-        });
-
-        userService.on('created', addUser);
-        userService.find().then(page => {
-          const users = page.data;
-          const createMessage = message => addMessage(message, users);
-
-          users.forEach(addUser);
-
-          messageService.on('created', createMessage);
-          // Find the latest 10 messages
-          messageService.find({
-            query: {
-              $sort: { createdAt: -1 },
-              $limit: 10
-            }
-          }).then(page => {
-            // We need to reverse the order of messages
-            const messages = page.data.reverse();
-
-            messages.forEach(createMessage);
-          });
-        });
-      });
-    </script>
   </body>
 </html>
