@@ -24,12 +24,12 @@ $(function() {
   }
 
   // Renders a new message and finds the user that belongs to the message
-  function addMessage(message, users) {
+  function addMessage(message) {
     // Find the user belonging to this message or use the anonymous user if not found
-    const sender = users.find(current => current._id === message.sentBy) || dummyUser;
+    const sender = message.sentBy || dummyUser;
 
     $('.chat').append(`<div class="message flex flex-row">
-      <img src="${sender.avatar || PLACEHOLDER}" alt="${user.email}" class="avatar">
+      <img src="${sender.avatar || PLACEHOLDER}" alt="${sender.email}" class="avatar">
       <div class="message-wrapper">
         <p class="message-header">
           <span class="username font-600">${sender.email}</span>
@@ -73,27 +73,26 @@ $(function() {
       app.logout().then(() => window.location.href = '/login.html');
     });
 
+    // Find the latest 10 messages. They will come with the newest first
+    // which is why we have to reverse before adding them
+    messageService.find({
+      query: {
+        $sort: { createdAt: -1 },
+        $limit: 25
+      }
+    }).then(page => page.data.reverse().forEach(addMessage));
+
+    // Listen to created events and add the new message in real-time
+    messageService.on('created', addMessage);
+
     // Find all users
     userService.find().then(page => {
       const users = page.data;
-      // An addMessage wrapper what also passes the list of users
-      const createMessage = message => addMessage(message, users);
 
       // Add every user to the list
       users.forEach(addUser);
-
-      // Find the latest 10 messages. They will come with the newest first
-      // which is why we have to reverse before adding them
-      messageService.find({
-        query: {
-          $sort: { createdAt: -1 },
-          $limit: 10
-        }
-      }).then(page => page.data.reverse().forEach(createMessage));
-
-      // Listen to created events and add the new message in real-time
-      messageService.on('created', createMessage);
     });
+
     // We will also see when new users get created in real-time
     userService.on('created', addUser);
   })

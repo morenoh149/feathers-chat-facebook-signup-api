@@ -79,7 +79,7 @@ const MessageList = React.createClass({
     const users = this.props.users;
     const messages = this.props.messages;
     const renderMessage = message => {
-      const sender = users.find(current => current._id === message.sentBy) || dummyUser;
+      const sender = message.sentBy || dummyUser;
 
       return <div className="message flex flex-row">
         <img src={sender.avatar || PLACEHOLDER} alt={sender.email} className="avatar" />
