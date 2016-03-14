@@ -1,8 +1,8 @@
 'use strict';
 
-const verify = require('./verify');
-
+const restrictToSender = require('./restrict-to-sender');
 const process = require('./process');
+const populateSender = require('./populate-sender');
 
 const globalHooks = require('../../../hooks');
 const auth = require('feathers-authentication').hooks;
@@ -16,16 +16,16 @@ exports.before = {
   find: [],
   get: [],
   create: [process()],
-  update: [verify()],
-  patch: [verify()],
-  remove: [verify()]
+  update: [restrictToSender()],
+  patch: [restrictToSender()],
+  remove: [restrictToSender()]
 };
 
 exports.after = {
   all: [],
-  find: [],
-  get: [],
-  create: [],
+  find: [populateSender()],
+  get: [populateSender()],
+  create: [populateSender()],
   update: [],
   patch: [],
   remove: []
