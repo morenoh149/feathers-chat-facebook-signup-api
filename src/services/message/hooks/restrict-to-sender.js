@@ -1,6 +1,6 @@
 'use strict';
 
-// src/services/message/hooks/verifyUser.js.js
+// src/services/message/hooks/restrict-to-sender.js
 //
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/hooks/readme.html
