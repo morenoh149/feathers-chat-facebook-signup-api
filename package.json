@@ -16,6 +16,10 @@
     "node": ">= 0.12.0"
   },
   "scripts": {
+    "push": "git push origin && git push origin --tags",
+    "release:patch": "npm version patch && npm push",
+    "release:minor": "npm version minor && npm push",
+    "release:major": "npm version major && npm push",
     "test": "npm run jshint && npm run mocha",
     "jshint": "jshint src/. test/. --config",
     "start": "node src/",
