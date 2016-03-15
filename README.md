@@ -1,3 +1,5 @@
+![Chat App](chat.gif)
+
 # feathers-chat
 
 > A real-time chat application
