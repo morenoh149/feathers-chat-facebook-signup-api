@@ -111,6 +111,11 @@ const ChatApp = React.createClass({
     };
   },
 
+  componentDidUpdate: function() {
+    const node = this.getDOMNode().querySelector('.chat');
+    node.scrollTop = node.scrollHeight - node.clientHeight;
+  },
+
   componentDidMount() {
     const userService = app.service('users');
     const messageService = app.service('messages');
@@ -157,4 +162,9 @@ app.authenticate().then(() => {
 
     <ChatApp />
   </div>, document.body);
-}).catch(() => window.location.href = '/login.html');
+}).catch(error => {
+  if(error.code === 401) {
+    window.location.href = '/login.html'
+  }
+});
+

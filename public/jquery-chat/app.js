@@ -27,8 +27,9 @@ $(function() {
   function addMessage(message) {
     // Find the user belonging to this message or use the anonymous user if not found
     const sender = message.sentBy || dummyUser;
+    const chat = $('.chat');
 
-    $('.chat').append(`<div class="message flex flex-row">
+    chat.append(`<div class="message flex flex-row">
       <img src="${sender.avatar || PLACEHOLDER}" alt="${sender.email}" class="avatar">
       <div class="message-wrapper">
         <p class="message-header">
@@ -38,6 +39,8 @@ $(function() {
         <p class="message-content font-300">${message.text}</p>
       </div>
     </div>`);
+
+    chat.scrollTop(chat[0].scrollHeight - chat[0].clientHeight);
   }
 
   // Establish a Socket.io connection
@@ -52,27 +55,27 @@ $(function() {
       storage: window.localStorage
     }));
 
+  // Get the Feathers services we want to use
+  const userService = app.service('users');
+  const messageService = app.service('messages');
+
+  $('#send-message').on('submit', function(ev) {
+    // This is the message text input field
+    const input = $(this).find('[name="text"]');
+
+    // Create a new message and then clear the input field
+    messageService.create({
+      text: input.val()
+    }).then(message => input.val(''));
+
+    ev.preventDefault();
+  });
+
+  $('.logout').on('click', function() {
+    app.logout().then(() => window.location.href = '/login.html');
+  });
+
   app.authenticate().then(() => {
-    // Get the Feathers services we want to use
-    const userService = app.service('users');
-    const messageService = app.service('messages');
-
-    $('#send-message').on('submit', function(ev) {
-      // This is the message text input field
-      const input = $(this).find('[name="text"]');
-
-      // Create a new message and then clear the input field
-      messageService.create({
-        text: input.val()
-      }).then(message => input.val(''));
-
-      ev.preventDefault();
-    });
-
-    $('.logout').on('click', function() {
-      app.logout().then(() => window.location.href = '/login.html');
-    });
-
     // Find the latest 10 messages. They will come with the newest first
     // which is why we have to reverse before adding them
     messageService.find({
