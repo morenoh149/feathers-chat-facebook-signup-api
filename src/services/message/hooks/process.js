@@ -20,7 +20,7 @@ module.exports = function(options) {
     hook.data = {
       text,
       // Set the user id
-      sentBy: user._id,
+      userId: user._id,
       // Add the current time via `getTime`
       createdAt: new Date().getTime()
     };

@@ -1,11 +1,15 @@
 'use strict';
 
+const hooks = require('feathers-hooks');
+const auth = require('feathers-authentication').hooks;
+
 const restrictToSender = require('./restrict-to-sender');
 const process = require('./process');
-const populateSender = require('./populate-sender');
-
 const globalHooks = require('../../../hooks');
-const auth = require('feathers-authentication').hooks;
+const populateSender = hooks.populate('sentBy', {
+  service: 'users',
+  field: 'userId'
+});
 
 exports.before = {
   all: [
@@ -16,16 +20,16 @@ exports.before = {
   find: [],
   get: [],
   create: [process()],
-  update: [restrictToSender()],
-  patch: [restrictToSender()],
+  update: [hooks.remove('sentBy'), restrictToSender()],
+  patch: [hooks.remove('sentBy'), restrictToSender()],
   remove: [restrictToSender()]
 };
 
 exports.after = {
   all: [],
-  find: [populateSender()],
-  get: [populateSender()],
-  create: [populateSender()],
+  find: [populateSender],
+  get: [populateSender],
+  create: [populateSender],
   update: [],
   patch: [],
   remove: []
