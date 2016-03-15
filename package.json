@@ -1,7 +1,7 @@
 {
   "name": "feathers-chat",
   "description": "A real-time chat application",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "homepage": "",
   "main": "src/",
   "keywords": [
