@@ -18,6 +18,30 @@ const app = feathers()
     storage: window.localStorage
   }));
 
+const ComposeMessage = React.createClass({
+  getInitialState() {
+    return { text: '' };
+  },
+
+  updateText(ev) {
+    this.setState({ text: ev.target.value });
+  },
+
+  sendMessage(ev) {
+    app.service('messages').create(this.state)
+      .then(() => this.setState({ text: '' }))
+    ev.preventDefault();
+  },
+
+  render() {
+    return <form className="flex flex-row flex-space-between" onSubmit={this.sendMessage}>
+      <input type="text" name="text" className="flex flex-1"
+        value={this.state.text} onChange={this.updateText} />
+      <button className="button-primary" type="submit">Send</button>
+    </form>;
+  }
+});
+
 const UserList = React.createClass({
   logout() {
     app.logout().then(() => window.location.href = '/login.html');
@@ -50,55 +74,29 @@ const UserList = React.createClass({
   }
 });
 
-const ComposeMessage = React.createClass({
-  getInitialState() {
-    return { text: '' };
-  },
-
-  updateText(ev) {
-    this.setState({ text: ev.target.value });
-  },
-
-  sendMessage(ev) {
-    app.service('messages').create(this.state)
-      .then(() => this.setState({ text: '' }))
-    ev.preventDefault();
-  },
-
-  render() {
-    return <form className="flex flex-row flex-space-between" onSubmit={this.sendMessage}>
-      <input type="text" name="text" className="flex flex-1"
-        value={this.state.text} onChange={this.updateText} />
-      <button className="button-primary" type="submit">Send</button>
-    </form>;
-  }
-});
-
 const MessageList = React.createClass({
+  renderMessage(message) {
+    const sender = message.sentBy || dummyUser;
+
+    return <div className="message flex flex-row">
+      <img src={sender.avatar || PLACEHOLDER} alt={sender.email} className="avatar" />
+      <div className="message-wrapper">
+        <p className="message-header">
+          <span className="username font-600">{sender.email}</span>
+          <span className="sent-date font-300">
+            {moment(message.createdAt).format('MMM Do, hh:mm:ss')}
+          </span>
+        </p>
+        <p className="message-content font-300">
+          {message.text}
+        </p>
+      </div>
+    </div>;
+  },
+
   render() {
-    const users = this.props.users;
-    const messages = this.props.messages;
-    const renderMessage = message => {
-      const sender = message.sentBy || dummyUser;
-
-      return <div className="message flex flex-row">
-        <img src={sender.avatar || PLACEHOLDER} alt={sender.email} className="avatar" />
-        <div className="message-wrapper">
-          <p className="message-header">
-            <span className="username font-600">{sender.email}</span>
-            <span className="sent-date font-300">
-              {moment(message.createdAt).format('MMM Do, hh:mm:ss')}
-            </span>
-          </p>
-          <p className="message-content font-300">
-            {message.text}
-          </p>
-        </div>
-      </div>;
-    }
-
     return <main className="chat flex flex-column flex-1 clear">
-      {messages.map(renderMessage)}
+      {this.props.messages.map(this.renderMessage)}
     </main>;
   }
 });
