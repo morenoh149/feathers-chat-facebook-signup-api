@@ -4,17 +4,32 @@ const assert = require('assert');
 const process = require('../../../../src/services/message/hooks/process.js');
 
 describe('message process hook', () => {
-  it('hook can be used', () => {
+  it('returns a function', () => {
+    var hook = process();
+    assert.equal(typeof hook, 'function');
+  });
+
+  it('filters data as expected', () => {
     const mockHook = {
       type: 'before',
       app: {},
-      params: {},
+      params: {
+        user: {
+          _id: '1'
+        }
+      },
       result: {},
-      data: {}
+      data: {
+        text: 'foo&'
+      }
     };
     
     process()(mockHook);
     
-    assert.ok(mockHook.process);
+    assert.deepEqual(mockHook.data, {
+      text: 'foo&amp;',
+      userId: '1',
+      createdAt: new Date().getTime()
+    });
   });
 });

@@ -11,4 +11,4 @@ module.exports = function() {
 
   
   app.configure(authentication(config));
-}
+};
