@@ -23,9 +23,9 @@ exports.before = {
 
 exports.after = {
   all: [], // Populate the sender
-  find: [hooks.populate('sentBy', { service: 'users' })],
-  get: [hooks.populate('sentBy', { service: 'users' })],
-  create: [hooks.populate('sentBy', { service: 'users' })],
+  find: [hooks.populate('sentBy', { service: 'users', field: 'userId' })],
+  get: [hooks.populate('sentBy', { service: 'users',  field: 'userId' })],
+  create: [hooks.populate('sentBy', { service: 'users', field: 'userId' })],
   update: [],
   patch: [],
   remove: []
