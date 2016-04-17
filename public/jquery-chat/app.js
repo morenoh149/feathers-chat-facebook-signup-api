@@ -1,7 +1,7 @@
 'use strict';
 
 // A placeholder image if the user does not have one
-const PLACEHOLDER = '/placeholder.png';
+const PLACEHOLDER = 'https://placeimg.com/60/60/people';
 // An anonymous user if the message does not have that information
 const dummyUser = {
   avatar: PLACEHOLDER,
@@ -25,11 +25,11 @@ function addUser(user) {
 // Renders a new message and finds the user that belongs to the message
 function addMessage(message) {
   // Find the user belonging to this message or use the anonymous user if not found
-  const sender = message.sentBy || dummyUser;
+  const sender = typeof message.sentBy === 'object' ? message.sentBy : dummyUser;
   const chat = $('.chat');
 
   chat.append(`<div class="message flex flex-row">
-    <img src="${sender.avatar || PLACEHOLDER}" alt="${sender.email}" class="avatar">
+    <img src="${sender.avatar}" alt="${sender.email}" class="avatar">
     <div class="message-wrapper">
       <p class="message-header">
         <span class="username font-600">${sender.email}</span>
