@@ -12,7 +12,9 @@
 
 <chat-app v-if="user.authenticated">
   <user-list></user-list>
-  <message-list></message-list>
+  <message-list>
+    <compose-message></compose-message>
+  </message-list>
 </chat-app>
 
 
@@ -32,6 +34,7 @@
     </div>
   </div>
 </template>
+
 
 <template id="user-list-template">
   <aside class="sidebar col col-3 flex flex-column flex-space-between">
@@ -67,9 +70,12 @@
         </div>
       </div>
     </main>
-    <compose-message></compose-message>
+
+    <slot></slot>
+
   </div>
 </template>
+
 
 <template id="compose-message-template">
   <form class="flex flex-row flex-space-between" id="send-message" v-on:submit.prevent>
