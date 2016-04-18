@@ -27,7 +27,6 @@ const messageService = app.service('messages')
 // Components:
 // ChatApp
 // UserList
-// UserList
 // MessageList
 // ComposeMessage
 
