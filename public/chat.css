@@ -241,3 +241,7 @@ main.chat .message p.message-header span.sent-date {
 #app form button {
   margin-left: 10px;
 }
+
+[v-cloak] {
+  display: none;
+}
