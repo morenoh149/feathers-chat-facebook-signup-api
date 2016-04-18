@@ -35,6 +35,7 @@ Vue.component('user-list', {
   template: '#user-list-template',
   data: function () {
     return {
+      dummyUser: dummyUser,
       users: []
     }
   },
@@ -61,6 +62,7 @@ Vue.component('message-list', {
   template: '#message-list-template',
   data: () => {
     return {
+      placeholder: PLACEHOLDER,
       newMessage: '',
       messages: []
     }

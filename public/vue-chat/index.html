@@ -41,8 +41,8 @@
     <ul class="flex flex-column flex-1 list-unstyled user-list">
       <li v-for="user in users" track-by="$index" v-cloak>
         <a class="block relative" href="#">
-          <img v-bind:src="user.avatar" alt="" class="avatar">
-          <span class="absolute username">{{ user.email }}</span>
+          <img :src="user.avatar || dummyUser.avatar" alt="" class="avatar">
+          <span class="absolute username">{{ user.email || dummyUser.email }}</span>
         </a>
       </li>
     </ul>
@@ -57,7 +57,7 @@
   <div class="flex flex-column col col-9">
     <main class="chat flex flex-column flex-1 clear">
       <div class="message flex flex-row" v-for="message in messages" track-by="$index" v-cloak>
-        <img :src="message.sentBy.avatar" alt="{{ message.sentBy.email }}" class="avatar">
+        <img :src="message.sentBy.avatar || placeholder" alt="{{ message.sentBy.email }}" class="avatar">
         <div class="message-wrapper">
           <p class="message-header">
             <span class="username font-600">{{ message.email }}</span>
