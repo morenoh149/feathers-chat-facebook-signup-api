@@ -1,5 +1,6 @@
 // A placeholder image if the user does not have one
 const PLACEHOLDER = '/placeholder.png';
+
 // An anonymous user if the message does not have that information
 const dummyUser = {
   avatar: PLACEHOLDER,
@@ -8,6 +9,7 @@ const dummyUser = {
 
 // Establish a Socket.io connection
 const socket = io()
+
 // Initialize our Feathers client application through Socket.io
 // with hooks and authentication.
 const app = feathers()
@@ -25,21 +27,26 @@ const messageService = app.service('messages')
 // Components:
 // ChatApp
 // UserList
+// UserList
 // MessageList
+// ComposeMessage
 
 Vue.component('chat-app', {
   template: '#chat-app-template'
 })
 
+
 Vue.component('user-list', {
   template: '#user-list-template',
-  data: function () {
+
+  data () {
     return {
       dummyUser: dummyUser,
       users: []
     }
   },
-  ready: function () {
+
+  ready () {
     // Find all users
     userService.find().then(page => {
       this.users = page.data
@@ -52,22 +59,24 @@ Vue.component('user-list', {
   },
 
   methods: {
-    logout: () => {
+    logout () {
       app.logout().then(() => window.location.href = '/index.html')
     }
   }
 })
 
+
 Vue.component('message-list', {
   template: '#message-list-template',
-  data: () => {
+
+  data () {
     return {
       placeholder: PLACEHOLDER,
-      newMessage: '',
       messages: []
     }
   },
-  ready: function () {
+
+  ready () {
     // Find the latest 10 messages. They will come with the newest first
     // which is why we have to reverse before adding them
     messageService.find({
@@ -90,10 +99,6 @@ Vue.component('message-list', {
   },
 
   methods: {
-    addMessage: message => {
-      // Create a new message and then clear the input field
-      messageService.create({text: message}).then(this.newMessage = '')
-    },
     scrollToBottom: () => {
       vm.$nextTick(() => {
         const node = vm.$el.getElementsByClassName('chat')[0]
@@ -101,12 +106,32 @@ Vue.component('message-list', {
       })
     }
   },
+
   filters: {
     moment: date => {
       return moment(date).format('MMM Do, hh:mm:ss')
     }
   }
 })
+
+
+Vue.component('compose-message', {
+  template: '#compose-message-template',
+
+  data () {
+    return {
+      newMessage: ''
+    }
+  },
+
+  methods: {
+    addMessage () {
+      // Create a new message and then clear the input field
+      messageService.create({text: this.newMessage}).then(this.newMessage = '')
+    }
+  }
+})
+
 
 var vm = new Vue({
   el: 'body',
@@ -115,15 +140,13 @@ var vm = new Vue({
       authenticated: false
     }
   },
-  created: function () {
+  created () {
     app.authenticate().then(() => {
       this.user.authenticated = true
     })
     // On errors we just redirect back to the login page
-      .catch(function (error) {
-        if (error.code === 401) {
-          window.location.href = '/login.html'
-        }
+      .catch(error => {
+        if (error.code === 401) window.location.href = '/login.html'
       })
   }
 })

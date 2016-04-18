@@ -67,12 +67,17 @@
         </div>
       </div>
     </main>
-    <form class="flex flex-row flex-space-between" id="send-message" v-on:submit.prevent>
-      <input type="text" name="text" class="flex flex-1" v-model="newMessage">
-      <button class="button-primary" type="submit" @click="addMessage(newMessage)">Send</button>
-    </form>
+    <compose-message></compose-message>
   </div>
 </template>
+
+<template id="compose-message-template">
+  <form class="flex flex-row flex-space-between" id="send-message" v-on:submit.prevent>
+    <input type="text" name="text" class="flex flex-1" v-model="newMessage">
+    <button class="button-primary" type="submit" @click="addMessage">Send</button>
+  </form>
+</template>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.21/vue.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.js"></script>
