@@ -24,10 +24,30 @@ const app = feathers()
 const userService = app.service('users')
 const messageService = app.service('messages')
 
+
+var vm = new Vue({
+  el: 'body',
+  data: {
+    user: {
+      authenticated: false
+    }
+  },
+  created () {
+    app.authenticate().then(() => {
+      this.user.authenticated = true
+    })
+    // On errors we just redirect back to the login page
+      .catch(error => {
+        if (error.code === 401) window.location.href = '/login.html'
+      })
+  }
+})
+
 // Components:
 // ChatApp
 // UserList
 // MessageList
+// Message
 // ComposeMessage
 
 Vue.component('chat-app', {
@@ -59,7 +79,10 @@ Vue.component('user-list', {
 
   methods: {
     logout () {
-      app.logout().then(() => window.location.href = '/index.html')
+      app.logout().then(() => {
+        vm.user.authenticated = false
+        window.location.href = '/index.html'
+      })
     }
   }
 })
@@ -104,8 +127,13 @@ Vue.component('message-list', {
         node.scrollTop = node.scrollHeight
       })
     }
-  },
+  }
+})
 
+
+Vue.component('message', {
+  props: ['message', 'index'],
+  template: '#message-template',
   filters: {
     moment: date => {
       return moment(date).format('MMM Do, hh:mm:ss')
@@ -128,24 +156,5 @@ Vue.component('compose-message', {
       // Create a new message and then clear the input field
       messageService.create({text: this.newMessage}).then(this.newMessage = '')
     }
-  }
-})
-
-
-var vm = new Vue({
-  el: 'body',
-  data: {
-    user: {
-      authenticated: false
-    }
-  },
-  created () {
-    app.authenticate().then(() => {
-      this.user.authenticated = true
-    })
-    // On errors we just redirect back to the login page
-      .catch(error => {
-        if (error.code === 401) window.location.href = '/login.html'
-      })
   }
 })
