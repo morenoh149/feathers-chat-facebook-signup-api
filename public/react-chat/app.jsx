@@ -1,5 +1,5 @@
 // A placeholder image if the user does not have one
-const PLACEHOLDER = '/placeholder.png';
+const PLACEHOLDER = 'https://placeimg.com/60/60/people';
 // An anonymous user if the message does not have that information
 const dummyUser = {
   avatar: PLACEHOLDER,
@@ -76,7 +76,7 @@ const UserList = React.createClass({
 
 const MessageList = React.createClass({
   renderMessage(message) {
-    const sender = message.sentBy || dummyUser;
+    const sender = typeof message.sentBy === 'object' ? message.sentBy : dummyUser;
 
     return <div className="message flex flex-row">
       <img src={sender.avatar || PLACEHOLDER} alt={sender.email} className="avatar" />
@@ -164,5 +164,6 @@ app.authenticate().then(() => {
   if(error.code === 401) {
     window.location.href = '/login.html'
   }
-});
 
+  console.error(error);
+});
