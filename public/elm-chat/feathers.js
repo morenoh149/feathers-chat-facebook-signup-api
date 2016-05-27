@@ -17,15 +17,15 @@ function logout() {
 const messageService = app.service('messages');
 const userService = app.service('users');
 
-function messages(messagesIn, messagesOut) {
+function messages(messagesIn, sendMessage) {
   /*
    * messagesIn.send(object) will send an object to Elm which
    * we will map to an action in 'inputsignal'
 
-   * messagesOut.subscribe(function(data)) will run every time we send
+   * sendMessage.subscribe(function(data)) will run every time we send
    * data from Elm to Javascript and we cant handle it here
    */
-  messagesOut.subscribe(data => {
+  sendMessage.subscribe(data => {
     app.service('messages').create({
       text: data,
     });
@@ -67,22 +67,20 @@ const emptyMessage = {
 
 app.authenticate().then(() => {
   // Load up the Elm application in Fullscreen
-  var elm = Elm.fullscreen(Elm.Main, {
-    messagesIn: emptyMessage, // We need to provide the default data to Elm
-    usersPort: emptyUser,
-  });
+  var elm = Elm.Main.fullscreen();
 
   const {
     messagesIn,
-    messagesOut,
+    sendMessage,
     usersPort,
     logoutPort,
   } = elm.ports;
 
   // Here we pass the ports to our Javascript functions
-  messages(messagesIn, messagesOut);
+  messages(messagesIn, sendMessage);
   users(usersPort);
   logoutPort.subscribe(logout); // this one is much simpler
 }).catch(error => {
+  console.error(error);
   window.location.href = '/login.html';
 });

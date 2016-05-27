@@ -1,59 +1,34 @@
-module Main (..) where
+port module Main exposing (..)
 
-import Html exposing (Html)
-import Effects exposing (Effects, none)
-import StartApp exposing (start, App)
+import Html exposing (..)
+import Html.App exposing (..)
 import View exposing (view)
 import Models exposing (..)
 import Task exposing (Task)
 
 
-app : App Model
-app =
-  start
+main =
+  Html.App.program
     { init = init
     , view = view
     , update = update
-    , inputs =
-        [ Signal.map (NewMessage) messagesIn
-        , Signal.map (NewUser) usersPort
-        ]
+    , subscriptions = subscriptions
     }
 
 
-main : Signal Html
-main =
-  app.html
+port usersPort : (User -> user) -> Sub user
+port messagesIn : (Message -> msg) -> Sub msg
+port sendMessage : String -> Cmd msg
+port logoutPort : () -> Cmd msg
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+  Sub.batch [ messagesIn NewMessage
+            , usersPort NewUser
+            ]
 
 
-port tasks : Signal (Task Effects.Never ())
-port tasks =
-  app.tasks
-
-
-port usersPort : Signal User
-port messagesIn : Signal Message
-port messagesOut : Signal String
-port messagesOut =
-  messagesOutMailbox.signal
-
-
-messagesOutMailbox : Signal.Mailbox String
-messagesOutMailbox =
-  Signal.mailbox ""
-
-
-port logoutPort : Signal ()
-port logoutPort =
-  logoutPortMailbox.signal
-
-
-logoutPortMailbox : Signal.Mailbox ()
-logoutPortMailbox =
-  Signal.mailbox ()
-
-
-init : ( Model, Effects Action )
+init : ( Model, Cmd Msg )
 init =
   let
     model =
@@ -62,7 +37,7 @@ init =
       , users = []
       }
   in
-    ( model, none )
+    ( model, Cmd.none )
 
 
 newList : List Message -> Message -> List Message
@@ -71,38 +46,24 @@ newList list message =
     |> List.sortBy .createdAt
 
 
-update : Action -> Model -> ( Model, Effects Action )
+update : Msg -> Model -> ( Model, Cmd Msg )
 update action model =
   case action of
-    NoOp ->
-      ( model, none )
-
     NewMessage message ->
-      ( { model | messages = newList model.messages message }, none )
+      ( { model | messages = newList model.messages message }, Cmd.none )
 
     NewUser user ->
-      ( { model | users = List.append model.users [ user ] }, none )
+      ( { model | users = List.append model.users [ user ] }, Cmd.none )
 
     Typing value ->
-      ( { model | textbox = value }, none )
+      ( { model | textbox = value }, Cmd.none )
 
     SendMessage ->
-      let
-        fx =
-          Signal.send messagesOutMailbox.address model.textbox
-            |> Task.map (always NoOp)
-            |> Effects.task
-      in
-        ( { model | textbox = "" }, fx )
+      ( { model | textbox = "" }, sendMessage model.textbox )
 
     Logout ->
       let
-        fx =
-          Signal.send logoutPortMailbox.address ()
-            |> Task.map (always NoOp)
-            |> Effects.task
-
         ( newModel, _ ) =
           init
       in
-        ( newModel, fx )
+        ( newModel, logoutPort ())

@@ -1,18 +1,17 @@
-module View (..) where
+module View exposing (..)
 
 import Models exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (on, keyCode, targetValue, onClick)
+import Html.Events exposing (..)
 import List
 import Time exposing (Time)
 import Date exposing (fromTime)
-import Date.Format exposing (format)
-import Date.Config.Config_en_us as English
+import Date.Format exposing (..)
 import Json.Decode as Json
 
 
-message : Message -> Html
+message : Message -> Html Msg
 message msg =
   div
     [ class "message flex flex-row" ]
@@ -28,7 +27,7 @@ message msg =
                 [ text msg.sentBy.email ]
             , span
                 [ class "sent-date font-300" ]
-                [ text <| formatTime msg.createdAt ]
+                [ text <| " " ++ formatTime msg.createdAt ]
             ]
         , p
             [ class "message-content font-300" ]
@@ -37,7 +36,7 @@ message msg =
     ]
 
 
-user : User -> Html
+user : User -> Html Msg
 user usr =
   li
     []
@@ -53,8 +52,8 @@ user usr =
     ]
 
 
-view : Signal.Address Action -> Model -> Html
-view address model =
+view : Model -> Html Msg
+view model =
   div
     [ class "flex flex-column", id "app" ]
     [ header
@@ -88,8 +87,7 @@ view address model =
                 (List.map user model.users)
             , footer
                 [ class "flex flex-row flex-center" ]
-                [ a
-                    [ class "logout button button-primary", onClick address Logout ]
+                [ a [ class "logout button button-primary", onClick Logout ]
                     [ text "Sign Out" ]
                 ]
             ]
@@ -98,19 +96,18 @@ view address model =
             [ main'
                 [ class "chat flex flex-column flex-1 clear" ]
                 (List.map message model.messages)
-            , div
-                [ class "flex flex-row flex-space-between", id "send-message" ]
+            , Html.form
+                [ class "flex flex-row flex-space-between", id "send-message"
+                , onSubmit SendMessage
+                ]
                 [ input
                     [ class "flex flex-1"
-                    , on "input" targetValue (Signal.message address << Typing)
-                    , onEnter address SendMessage
+                    , onInput Typing
                     , value model.textbox
                     ]
                     []
                 , button
-                    [ class "button-primary"
-                    , onClick address SendMessage
-                    ]
+                    [ class "button-primary" ]
                     [ text "Send" ]
                 ]
             ]
@@ -120,24 +117,4 @@ view address model =
 
 formatTime : Time -> String
 formatTime time =
-  let
-    date =
-      fromTime time
-  in
-    format English.config "%b %-d, %H:%M:%S" date
-
-
-onEnter : Signal.Address a -> a -> Attribute
-onEnter address value =
-  on
-    "keydown"
-    (Json.customDecoder keyCode is13)
-    (\_ -> Signal.message address value)
-
-
-is13 : Int -> Result String ()
-is13 code =
-  if code == 13 then
-    Ok ()
-  else
-    Err "not the right key code"
+  format "%b %d, %H:%M:%S" (fromTime time)

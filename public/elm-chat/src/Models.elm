@@ -1,11 +1,10 @@
-module Models (..) where
+module Models exposing (..)
 
 import Time exposing (Time)
 
 
-type Action
-  = NoOp
-  | NewMessage Message
+type Msg
+  = NewMessage Message
   | NewUser User
   | Typing String
   | SendMessage
