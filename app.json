@@ -21,12 +21,13 @@
       "generator": "secret"
     }
   },
-  "formation": [{
-    "web": {
+  "formation": [
+    {
       "quantity": 1,
-      "size": "free"
+      "size": "free",
+      "type": "web"
     }
-  }],
+  ],
   "image": "heroku/nodejs",
   "addons": []
 }
