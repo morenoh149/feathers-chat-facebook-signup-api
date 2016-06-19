@@ -37,6 +37,10 @@ Feathers has a powerful generator. Here's just a few things that it can do:
 - **Generate a new Hook:** `yo feathers:hook`
 - **Generate a new Model:** `yo feathers:model`
 
+## Deploying
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/feathersjs/feathers-chat)
+
 ## Help
 
 For more information on all the things you can do with Feathers visit [docs.feathersjs.com](http://docs.feathersjs.com).

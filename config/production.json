@@ -1,7 +1,7 @@
 {
-  "host": "feathers-chat-app.feathersjs.com",
-  "port": 80,
-  "nedb": "NEDB_BASE_PATH",
+  "host": "chat.feathersjs.com",
+  "port": "PORT",
+  "nedb": "../data/",
   "public": "../public/",
   "auth": {
     "token": {

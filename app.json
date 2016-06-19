@@ -19,24 +19,14 @@
       "description": "Your secret for encrypting JWT's used with Feather authentication",
       "required": true,
       "generator": "secret"
-    },
-    "NEDB_BASE_PATH": {
-      "description": "A location to store your NeDB files",
-      "required": true
-    },
-    "GITHUB_CLIENT_ID": {
-      "description": "Your github client id",
-      "required": true
-    },
-    "GITHUB_CLIENT_SECRET": {
-      "description": "Your Github client secret",
-      "required": true
-    },
-    "HOST": {
-      "description": "The url for your app",
-      "required": false
     }
   },
+  "formation": [{
+    "web": {
+      "quantity": 1,
+      "size": "Free"
+    }
+  }],
   "image": "heroku/nodejs",
   "addons": []
 }
