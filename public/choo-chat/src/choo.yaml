@@ -1,0 +1,4 @@
+projectName: src
+template:
+  name: choo-cli
+  source: choo-cli
