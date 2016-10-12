@@ -26,7 +26,7 @@ const messageService = app.service('messages')
 
 
 var vm = new Vue({
-  el: 'body',
+  el: '#example',
   data: {
     user: {
       authenticated: false
@@ -54,7 +54,6 @@ Vue.component('chat-app', {
   template: '#chat-app-template'
 })
 
-
 Vue.component('user-list', {
   template: '#user-list-template',
 
@@ -65,7 +64,7 @@ Vue.component('user-list', {
     }
   },
 
-  ready () {
+  mounted () {
     // Find all users
     userService.find().then(page => {
       this.users = page.data
@@ -98,7 +97,7 @@ Vue.component('message-list', {
     }
   },
 
-  ready () {
+  mounted () {
     // Find the latest 10 messages. They will come with the newest first
     // which is why we have to reverse before adding them
     messageService.find({
