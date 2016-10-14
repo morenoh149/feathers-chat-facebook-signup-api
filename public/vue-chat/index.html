@@ -9,14 +9,14 @@
 </head>
 <body>
 
-
-<chat-app v-if="user.authenticated">
-  <user-list></user-list>
-  <message-list>
-    <compose-message></compose-message>
-  </message-list>
-</chat-app>
-
+<div id="example">
+	<chat-app v-if="user.authenticated">
+  		<user-list></user-list>
+  		<message-list>
+    		<compose-message></compose-message>
+  		</message-list>
+	</chat-app>
+</div>
 
 <template id="chat-app-template">
   <div id="app" class="flex flex-column">
@@ -42,7 +42,7 @@
       <h4 class="font-300 text-center"><span class="font-600 online-count" v-cloak>{{ users.length }}</span> users</h4>
     </header>
     <ul class="flex flex-column flex-1 list-unstyled user-list">
-      <li v-for="user in users" track-by="$index" v-cloak>
+      <li v-for="(user, index) in users" track-by="index" v-cloak>
         <a class="block relative" href="#">
           <img :src="user.avatar || dummyUser.avatar" alt="" class="avatar">
           <span class="absolute username">{{ user.email || dummyUser.email }}</span>
@@ -59,7 +59,7 @@
 <template id="message-list-template">
   <div class="flex flex-column col col-9">
     <main class="chat flex flex-column flex-1 clear">
-      <div class="message flex flex-row" v-for="message in messages" track-by="$index" v-cloak>
+      <div class="message flex flex-row" v-for="(message, index) in messages" track-by="index" v-cloak>
         <message :message=message></message>
       </div>
     </main>
@@ -71,7 +71,8 @@
 
 
 <template id="message-template">
-  <img :src="message.sentBy.avatar || placeholder" alt="{{ message.sentBy.email }}" class="avatar">
+  <div>
+  <img :src="message.sentBy.avatar || placeholder" v-bind:alt="message.sentBy.email" class="avatar">
   <div class="message-wrapper">
     <p class="message-header">
       <span class="username font-600">{{ message.sentBy.email }}</span>
@@ -90,8 +91,7 @@
   </form>
 </template>
 
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.21/vue.js"></script>
+<script src="//unpkg.com/vue@2.0.1/dist/vue.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.js"></script>
 <script src="//cdn.rawgit.com/feathersjs/feathers-client/v1.0.0/dist/feathers.js"></script>
 <script src="/socket.io/socket.io.js"></script>
