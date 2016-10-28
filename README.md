@@ -2,6 +2,8 @@
 
 # feathers-chat
 
+[![Build Status](https://travis-ci.org/feathersjs/feathers-chat.png?branch=master)](https://travis-ci.org/feathersjs/feathers-chat)
+
 > A real-time chat application
 
 ## About
