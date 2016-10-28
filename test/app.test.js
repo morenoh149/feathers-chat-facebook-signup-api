@@ -22,10 +22,9 @@ describe('Feathers application tests', () => {
   });
 
   describe('404', () => {
-    it('shows a 404 HTML page', done => {
+    it('sends a 404 error', done => {
       request('http://localhost:3030/path/to/nowhere', (err, res, body) => {
         assert.equal(res.statusCode, 404);
-        assert.ok(body.indexOf('<html>') !== -1);
         done(err);
       });
     });
