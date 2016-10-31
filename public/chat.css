@@ -104,7 +104,7 @@ main.signup fieldset {
 main.login fieldset input,
 main.signup fieldset input{
   width: 100%;
-  padding: 1.4em 0.7em;
+  /* padding: 1.4em 0.7em; */
 }
 
 main.login .button-primary,
