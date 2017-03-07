@@ -1,13 +1,19 @@
 {
   "host": "localhost",
   "port": 3030,
-  "nedb": "../data/",
   "public": "../public/",
-  "auth": {
-    "token": {
-      "secret": "+GJwhl9/93z1LNvxJ7xyIkEFFeqeErUYoub/Eeh4FIqLqr3j5nZoSt8UJkqogOP8iHUbJxo74R4L0OpRkZSFgw=="
-    },
-    "local": {},
-    "successRedirect": "/jquery-chat/"
+  "paginate": {
+    "default": 10,
+    "max": 50
+  },
+  "nedb": "../data",
+  "authentication": {
+    "secret": "iDfk20CEy3UXUPBnxLzByBrq1mWjX9nVSW9tDBAONL6C94uOmXtWcWjEZpYFr1TP",
+    "strategies": [
+      "jwt",
+      "local"
+    ],
+    "path": "/authentication",
+    "service": "users"
   }
 }

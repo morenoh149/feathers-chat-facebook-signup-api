@@ -1,6 +1,7 @@
 html, body {
   font-family: 'Helvetica Neue', 'Helevetica', 'Arial', 'sans-serif';
   color: #333;
+  height: 100%;
 }
 
 .flex-1 {
@@ -90,25 +91,17 @@ main.home .button.login:focus {
 /* Signup and Login */
 /* ======================================= */
 
-main.login,
-main.signup {
-  padding-top: 100px;
-  padding-bottom: 100px;
-}
 
-main.login fieldset,
-main.signup fieldset {
+main.login fieldset {
   padding: 10px 0;
 }
 
-main.login fieldset input,
-main.signup fieldset input{
+main.login fieldset input {
   width: 100%;
-  /* padding: 1.4em 0.7em; */
+  padding: 1.4em 0.7em;
 }
 
-main.login .button-primary,
-main.signup .button-primary {
+main.login .button-primary {
   padding-top: 1.2em;
   padding-bottom: 1.2em;
   margin-top: 40px;
@@ -197,6 +190,9 @@ aside.sidebar footer {
 }
 
 /* Main Chat */
+main.flex {
+  height: 100%;
+}
 
 main.chat {
   padding: 10px;
@@ -238,7 +234,7 @@ main.chat .message p.message-header span.sent-date {
   height: auto !important;
 }
 
-#app form button {
+#send-message button {
   margin-left: 10px;
 }
 
