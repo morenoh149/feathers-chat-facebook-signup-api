@@ -1,15 +1,16 @@
 {
   "name": "feathers-chat",
-  "description": "A real-time chat application",
+  "description": "A Feathers real-time chat application",
   "version": "0.0.0",
   "homepage": "",
   "main": "src",
   "keywords": [
     "feathers"
   ],
-  "license": "MIT",
-  "repository": {},
-  "author": {},
+  "author": {
+    "name": "David Luecke",
+    "email": "daff@neyeon.com"
+  },
   "contributors": [],
   "bugs": {},
   "directories": {
@@ -26,25 +27,25 @@
     "mocha": "mocha test/ --recursive"
   },
   "dependencies": {
-    "body-parser": "^1.17.0",
+    "body-parser": "^1.17.1",
     "compression": "^1.6.2",
     "cors": "^2.8.1",
-    "eslint": "^3.16.1",
+    "eslint": "^3.17.1",
     "feathers": "^2.1.1",
     "feathers-authentication": "pre",
     "feathers-authentication-jwt": "^0.3.1",
     "feathers-authentication-local": "^0.3.3",
     "feathers-configuration": "^0.4.1",
-    "feathers-errors": "^2.5.0",
+    "feathers-errors": "^2.6.1",
     "feathers-hooks": "^1.8.1",
     "feathers-hooks-common": "^2.0.3",
     "feathers-nedb": "^2.6.1",
     "feathers-rest": "^1.7.1",
     "feathers-socketio": "^1.5.2",
-    "helmet": "^3.4.1",
+    "helmet": "^3.5.0",
     "mocha": "^3.2.0",
     "nedb": "^1.8.0",
-    "request": "^2.79.0",
+    "request": "^2.81.0",
     "request-promise": "^4.1.1",
     "serve-favicon": "^2.4.1",
     "winston": "^2.3.1"
