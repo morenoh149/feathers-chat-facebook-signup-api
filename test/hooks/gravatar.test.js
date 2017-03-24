@@ -5,7 +5,7 @@ const gravatar = require('../../src/hooks/gravatar');
 
 describe('\'gravatar\' hook', () => {
   it('adds `avatar` property with URL to image', () => {
-    const expectedUrl = 'https://s.gravatar.com/avatar/6f362e9c29b2f21d935a42eda181044d?s=60';
+    const expectedUrl = 'https://s.gravatar.com/avatar/6f362e9c29b2f21d935a42eda181044d?s=200';
     // A mock hook object
     const mock = {
       data: {
