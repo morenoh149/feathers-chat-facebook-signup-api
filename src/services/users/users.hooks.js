@@ -2,7 +2,7 @@
 
 const { authenticate } = require('feathers-authentication').hooks;
 const { hashPassword } = require('feathers-authentication-local').hooks;
-
+const commonHooks  = require('feathers-hooks-common');
 const gravatar = require('../../hooks/gravatar');
 
 module.exports = {
@@ -17,7 +17,7 @@ module.exports = {
   },
 
   after: {
-    all: [],
+    all: [commonHooks.when(hook => hook.params.provider, commonHooks.discard('password'))],
     find: [],
     get: [],
     create: [],

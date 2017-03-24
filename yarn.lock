@@ -69,7 +69,7 @@ ajv-keywords@^1.0.0:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-1.5.1.tgz#314dd0a4b3368fad3dfcdc54ede6171b886daf3c"
 
-ajv@^4.7.0, ajv@^4.9.1:
+ajv@^4.10.0, ajv@^4.7.0, ajv@^4.9.1:
   version "4.11.5"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-4.11.5.tgz#b6ee74657b993a01dce44b7944d56f485828d5bd"
   dependencies:
@@ -906,6 +906,15 @@ feathers-hooks-common@^2.0.3:
     debug "^2.2.0"
     feathers-errors "^2.4.0"
     traverse "0.6.6"
+
+feathers-hooks-common@^3.0.0-pre.1:
+  version "3.0.0-pre.1"
+  resolved "https://registry.yarnpkg.com/feathers-hooks-common/-/feathers-hooks-common-3.0.0-pre.1.tgz#a5a47d6deb90abd3af7652e512cba8eab99abd95"
+  dependencies:
+    ajv "^4.10.0"
+    debug "^2.2.0"
+    feathers-errors "^2.4.0"
+    traverse "^0.6.6"
 
 feathers-hooks@^1.8.1:
   version "1.8.1"
@@ -2202,7 +2211,7 @@ tough-cookie@~2.3.0:
   dependencies:
     punycode "^1.4.1"
 
-traverse@0.6.6:
+traverse@0.6.6, traverse@^0.6.6:
   version "0.6.6"
   resolved "https://registry.yarnpkg.com/traverse/-/traverse-0.6.6.tgz#cbdf560fd7b9af632502fed40f918c157ea97137"
 
