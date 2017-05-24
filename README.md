@@ -25,6 +25,11 @@ Getting up and running is as easy as 1, 2, 3.
     npm start
     ```
 
+4. Goto to browser and check link as below
+     ```
+     http://localhost:3030/vanilla/
+      ```
+
 ## Testing
 
 Simply run `npm test` and all your tests in the `test/` directory will be run.
