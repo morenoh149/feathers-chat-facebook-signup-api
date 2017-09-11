@@ -80,16 +80,20 @@ const chatHTML = `<main class="flex flex-column">
 
 // Add a new user to the list
 function addUser(user) {
-  // Add the user to the list
-  document.querySelector('.user-list').insertAdjacentHTML('beforeend', `<li>
-    <a class="block relative" href="#">
-      <img src="${user.avatar}" alt="" class="avatar">
-      <span class="absolute username">${user.email}</span>
-    </a>
-  </li>`);
+  const userList = document.querySelector('.user-list');
 
-  // Update the number of users
-  document.querySelector('.online-count').innerHTML = document.querySelectorAll('.user-list li').length;
+  if(userList) {
+    // Add the user to the list
+    userList.insertAdjacentHTML('beforeend', `<li>
+      <a class="block relative" href="#">
+        <img src="${user.avatar}" alt="" class="avatar">
+        <span class="absolute username">${user.email}</span>
+      </a>
+    </li>`);
+
+    // Update the number of users
+    document.querySelector('.online-count').innerHTML = document.querySelectorAll('.user-list li').length;
+  }
 }
 
 // Renders a new message and finds the user that belongs to the message
@@ -98,18 +102,20 @@ function addMessage(message) {
   const sender = message.user || {};
   const chat = document.querySelector('.chat');
 
-  chat.insertAdjacentHTML( 'beforeend', `<div class="message flex flex-row">
-    <img src="${sender.avatar}" alt="${sender.email}" class="avatar">
-    <div class="message-wrapper">
-      <p class="message-header">
-        <span class="username font-600">${sender.email}</span>
-        <span class="sent-date font-300">${moment(message.createdAt).format('MMM Do, hh:mm:ss')}</span>
-      </p>
-      <p class="message-content font-300">${message.text}</p>
-    </div>
-  </div>`);
+  if(chat) {
+    chat.insertAdjacentHTML( 'beforeend', `<div class="message flex flex-row">
+      <img src="${sender.avatar}" alt="${sender.email}" class="avatar">
+      <div class="message-wrapper">
+        <p class="message-header">
+          <span class="username font-600">${sender.email}</span>
+          <span class="sent-date font-300">${moment(message.createdAt).format('MMM Do, hh:mm:ss')}</span>
+        </p>
+        <p class="message-content font-300">${message.text}</p>
+      </div>
+    </div>`);
 
-  chat.scrollTop = chat.scrollHeight - chat.clientHeight;
+    chat.scrollTop = chat.scrollHeight - chat.clientHeight;
+  }
 }
 
 // Show the login page
