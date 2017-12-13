@@ -168,9 +168,9 @@ const login = async credentials => {
 
     // If successful, show the chat page
     showChat();
-  } catch(e) {
+  } catch(error) {
     // If we got an error, show the login page
-    showLogin();
+    showLogin(error);
   }
 };
 
