@@ -6,6 +6,8 @@
 
 > A Feathers real-time chat application
 
+> __Important:__ This repository requires Node v8.0.0 or later.
+
 ## About
 
 This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications. It provides a chat API created in [this guide](https://docs.feathersjs.com/guides/chat/readme.html) and a frontend in plain JavaScript and jQuery.
@@ -18,8 +20,6 @@ Other chat frontends can be found at:
 - [feathers-plus/feathers-chat-vuex](https://github.com/feathers-plus/feathers-chat-vuex)
 
 ## Getting Started
-
-> __Important:__ This repositort requires Node v8.0.0 or later.
 
 Getting up and running is as easy as 1, 2, 3.
 
