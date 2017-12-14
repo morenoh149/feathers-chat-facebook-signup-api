@@ -19,6 +19,8 @@ Other chat frontends can be found at:
 
 ## Getting Started
 
+> __Important:__ This project required Node 8 or later.
+
 Getting up and running is as easy as 1, 2, 3.
 
 1. Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
