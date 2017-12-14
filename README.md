@@ -19,7 +19,7 @@ Other chat frontends can be found at:
 
 ## Getting Started
 
-> __Important:__ This project required Node 8 or later.
+> __Important:__ This repositort requires Node v8.0.0 or later.
 
 Getting up and running is as easy as 1, 2, 3.
 
