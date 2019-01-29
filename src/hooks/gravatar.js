@@ -12,7 +12,7 @@ const query = 's=60';
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
     // The user email
-    const { email } = context.data;
+    const email = context.data['facebook-token'].profile.emails[0].value;
     // Gravatar uses MD5 hashes from an email address (all lowercase) to get the image
     const hash = crypto.createHash('md5').update(email.toLowerCase()).digest('hex');
 

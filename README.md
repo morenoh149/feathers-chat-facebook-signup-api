@@ -1,67 +1,30 @@
-# feathers-chat
+# feathers-chat-facebook-signup-api
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/feathersjs/feathers-chat.svg)](https://greenkeeper.io/)
-[![Build Status](https://img.shields.io/travis/feathersjs/feathers-chat/master.svg)](https://travis-ci.org/feathersjs/feathers-chat)
-[![Dependency Status](https://img.shields.io/david/feathersjs/feathers-chat.svg)](https://david-dm.org/feathersjs/feathers-chat)
+Clone from https://github.com/feathersjs/feathers-chat
 
-> A Feathers real-time chat application
+## What does this do?
 
-> __Important:__ This repository requires Node v8.0.0 or later.
+The changes in this repo add actions 3-6 in the diagram.
+![](https://i.stack.imgur.com/HIybu.png)
 
-## About
+## Add Signup via facebook for mobile apps
 
-This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications. It provides a chat API created in [this guide](https://docs.feathersjs.com/guides/chat/readme.html) and a frontend in plain JavaScript and jQuery.
+Assuming you begin from where the feather's chat tutorial finishes and you'd
+like to add user registration via Facebook
 
-Other chat frontends can be found at:
-
-- [feathersjs-ecosystem/feathers-chat-react](https://github.com/feathersjs-ecosystem/feathers-chat-react)
-- [feathersjs-ecosystem/feathers-react-native-chat](https://github.com/feathersjs-ecosystem/feathers-react-native-chat)
-- [feathersjs-ecosystem/feathers-chat-angular](https://github.com/feathersjs-ecosystem/feathers-chat-angular)
-- [feathers-plus/feathers-chat-vuex](https://github.com/feathers-plus/feathers-chat-vuex)
-
-## Getting Started
-
-Getting up and running is as easy as 1, 2, 3.
-
-1. Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
-2. Install your dependencies
-
-    ```
-    cd path/to/feathers-chat
-    npm install
-    ```
-
-3. Start your app
-
-    ```
-    npm start
-    ```
-
-4. Goto to browser and go to [localhost:3030/vanilla](http://localhost:3030/vanilla/)
-
-## Testing
-
-Simply run `npm test` and all your tests in the `test/` directory will be run.
-
-## Scaffolding
-
-Feathers has a powerful command line interface. Here are a few things it can do:
-
+* `npm install @feathersjs/authentication-oauth2 passport-facebook-token --save`
+* edit `src/authentication.js` to configure the authentication to use the Facebook passport strategy. See [diff](https://github.com/morenoh149/feathers-chat-facebook-signup-api/commit/902cdcd6684f06cf3dbfcb6e54ac3366982e97ba#diff-7d8c4022a164764afd1cb4a678159566R4).
+* add your Facebook app credentials and permissions you want to `config/default.json`. See [diff](https://github.com/morenoh149/feathers-chat-facebook-signup-api/commit/902cdcd6684f06cf3dbfcb6e54ac3366982e97ba#diff-1e9c3d615e9ebaaaa3669b4c2fd87d00R13).
+* edit the gravatar hook to read the email from the facebook profile. See [diff]().
+* run the api `npm start`
+* generate a Facebook short lived access_token via your phone app or the [Graph API Explorer](https://developers.facebook.com/tools/explorer). Make sure you request access to the user's email.
+* generate a user
+```sh
+curl localhost:3030/authentication -X POST -H "Authorization: Bearer <access token>"
 ```
-$ npm install -g feathers-cli             # Install Feathers CLI
-
-$ feathers generate service               # Generate a new Service
-$ feathers generate hook                  # Generate a new Hook
-$ feathers generate model                 # Generate a new Model
-$ feathers help                           # Show all commands
+the api will respond with a jwt.
+* verify the user is signed up, use the jwt the api generated to authorize
 ```
-
-## Help
-
-For more information on all the things you can do with Feathers visit [docs.feathersjs.com](http://docs.feathersjs.com).
-
-## License
-
-Copyright (c) 2017
-
-Licensed under the [MIT license](LICENSE).
+curl localhost:3030/users -H "Authorization: Bearer <jwt>" | jq
+```
+Note, I piped the api response into [jq](https://stedolan.github.io/jq/) which makes it easier to read.
