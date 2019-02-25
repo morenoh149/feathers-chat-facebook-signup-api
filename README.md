@@ -28,3 +28,29 @@ the api will respond with a jwt.
 curl localhost:3030/users -H "Authorization: Bearer <jwt>" | jq
 ```
 Note, I piped the api response into [jq](https://stedolan.github.io/jq/) which makes it easier to read.
+
+## I get a facebook-tokenId error?
+
+This means your api is strictly enforcing the fields (this example project uses NEDB which unlike objection.js doesn't not care if an entity's field is missing.
+Add `facebook-token` and `facebook-tokenId` as a field on your User model.
+```es
+class users extends Model {
+  static get tableName() {
+    return "users";
+  }
+  static get jsonSchema() {
+    return {
+      type: "object",
+      required: ["phoneNumber"],
+                               
+      properties: {
+        email: { type: ["string", "null"] },
+        "facebook-token": { type: "text" },
+        "facebook-tokenId": { type: "text" },
+...
+      }
+    };
+  }
+}
+```
+Also create a knex database migration if you are using knex.
