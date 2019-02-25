@@ -31,7 +31,8 @@ Note, I piped the api response into [jq](https://stedolan.github.io/jq/) which m
 
 ## I get a facebook-tokenId error?
 
-This means your api is strictly enforcing the fields (this example project uses NEDB which unlike objection.js doesn't not care if an entity's field is missing.
+This means your api is strictly enforcing the fields (this example project uses NEDB which unlike objection.js does not care if an entity's field is missing).
+
 Add `facebook-token` and `facebook-tokenId` as a field on your User model.
 ```es
 class users extends Model {
